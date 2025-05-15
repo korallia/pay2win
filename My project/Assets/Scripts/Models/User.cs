@@ -1,20 +1,30 @@
 using System;
 using System.Security.Cryptography;
+using UnityEngine;
 
 namespace MonJeu.Models
 {
+ [Serializable]
 public class User
 {
-    public string Username { get; private set; }
-    public string Email { get; private set; }
-    public byte[] PasswordHash { get; private set; }
-    public byte[] PasswordSalt { get; private set; }
+    
+    public long Id { get; set; }
+    public   string Username ;
+    public  string Email ;
+    private byte[] PasswordSalt { get;  set; }
+     private byte[] PasswordHash { get;  set; }
+
+
+//base 64 string 
+    public string  Password;
+
+
 
     public User(string username, string email, string password)
     {
         Username = username;
         Email = email;
-        SetPassword(password);
+       SetPassword(password);
     }
 
     public void SetPassword(string password)
@@ -22,6 +32,7 @@ public class User
         PasswordHasher.CreatePasswordHash(password, out byte[] hash, out byte[] salt);
         PasswordHash = hash;
         PasswordSalt = salt;
+        Password = Convert.ToBase64String(hash);
     }
 
     public bool CheckPassword(string password)
@@ -55,5 +66,6 @@ public class User
             }
         }
     }
+    
 }
 }
