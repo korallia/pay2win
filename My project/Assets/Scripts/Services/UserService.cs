@@ -5,6 +5,7 @@ using MonJeu.Models;
 using System;
 using System.Text;
 using Newtonsoft.Json;
+using UnityEditor.UIElements;
 
 namespace MonJeu.Services
 {
@@ -17,16 +18,49 @@ public class UserService
     // Créer un utilisateur
     public IEnumerator CreateUser(User user)
     {
-        //Debug.Log("IN create User");
-        //Debug.Log(user.Username + " " + user.Password + " " + user.Email);
-
-        // Sérialiser l'objet User en JSON
         string json = JsonUtility.ToJson(user);
 
 
-        // Créer la requête POST
-        Debug.Log("JSON envoyé : " + json);
-        UnityWebRequest request = new UnityWebRequest(apiBaseUrl + "createUser", "POST");
+         yield return SendRequest("CreateUser", json,"POST");
+    }
+
+    // Modifier un utilisateur (ex. changer email)
+    public IEnumerator UpdateUser(long Id, User newUser)
+    {
+
+            User updaterUser = new User(Id, newUser.Username, newUser.Email, newUser.Password);
+
+            string json = JsonUtility.ToJson(updaterUser);
+
+
+            yield return SendRequest("UpdateUser",json,"PUT");
+    }
+
+    // Supprimer un utilisateur
+    public IEnumerator DeleteUser(long id)
+    {
+        string endpoint = $"deleteUser/{id}";
+        UnityWebRequest request = UnityWebRequest.Delete(apiBaseUrl + endpoint);
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Utilisateur supprimé avec succès.");
+        }
+        else
+        {
+            Debug.LogError($"Erreur DELETE : {request.responseCode} - {request.error}");
+        }
+    }
+
+
+
+    private IEnumerator SendRequest(string endpoint, string json, string RequestType)
+    {
+
+        UnityWebRequest request = new UnityWebRequest(apiBaseUrl + endpoint, RequestType);
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
@@ -42,63 +76,6 @@ public class UserService
         else
         {
             Debug.LogError("Erreur : " + request.error);
-        }
-    }
-
-    // Modifier un utilisateur (ex. changer email)
-    public IEnumerator UpdateUser(User user)
-    {
-        string json = JsonUtility.ToJson(new
-        {
-            username = user.Username,
-            email = user.Email
-        });
-
-        yield return SendRequest("updateUser", json);
-    }
-
-    // Supprimer un utilisateur
-    public IEnumerator DeleteUser(User user)
-    {
-        string json = JsonUtility.ToJson(new
-        {
-            username = user.Username
-        });
-
-        yield return SendRequest("/remove/{id}", json);
-    }
-
-    // Changer le mot de passe
-/*
-    public IEnumerator ChangePassword(User user, string newPassword)
-    {
-        user.SetPassword(newPassword);
-        string json = JsonUtility.ToJson(new
-        {
-            username = user.Username,
-            newPassword = user.PasswordHash
-        });
-
-        yield return SendRequest("updateUser", json);
-    }
-    */
-
-    // Méthode générique pour envoyer une requête POST
-    private IEnumerator SendRequest(string endpoint, string json)
-    {
-        UnityWebRequest request = UnityWebRequest.Post(apiBaseUrl + endpoint, json);
-        request.method = UnityWebRequest.kHttpVerbPOST;
-        request.SetRequestHeader("Content-Type", "application/json");
-
-        yield return request.SendWebRequest();
-
-        if (request.result == UnityWebRequest.Result.Success)
-        {
-            Debug.Log("Succès : " + endpoint + " => " + request.downloadHandler.text);
-        }
-        else
-        {
-            Debug.LogError("Erreur (" + endpoint + ") : " + request.error);
         }
     }
 }

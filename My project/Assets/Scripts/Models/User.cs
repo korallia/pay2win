@@ -1,5 +1,7 @@
 using System;
+using System.Data.Common;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace MonJeu.Models
@@ -7,12 +9,12 @@ namespace MonJeu.Models
  [Serializable]
 public class User
 {
-    
-    public long Id { get; set; }
+
+    public long Id;
     public   string Username ;
     public  string Email ;
     private byte[] PasswordSalt { get;  set; }
-     private byte[] PasswordHash { get;  set; }
+    private byte[] PasswordHash { get;  set; }
 
 
 //base 64 string 
@@ -25,6 +27,14 @@ public class User
         Username = username;
         Email = email;
        SetPassword(password);
+    }
+
+    public User( long  id ,String username, string email, string password)
+    {
+        Id = id;
+        Username = username;
+        Email = email;
+        SetPassword(password);
     }
 
     public void SetPassword(string password)
