@@ -15,18 +15,17 @@ public class UserTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        user = new User("test_created", "test_now@example.com", "password1235");
+        //user = new User("abyssal_knight_3", "knight@abyss.com", "ShadowBlade42");
         userService = new UserService();
-        StartCoroutine(userService.DeleteUser(2));
        
        //StartCoroutine(userService.CreateUser(user));
         //Debug.Log(user.Username + " " + user.Password + " " + user.Email);
 
        //newUser = new User("test_updated", "test_now@example.com", "password");
-        //StartCoroutine(userService.UpdateUser(user.Id,newUser ));
+        //StartCoroutine(userService.UpdateUser(20014,newUser ));
         //Debug.Log(user.Username + " " + user.Password + " " + user.Email);
 
-        
+        StartCoroutine(userService.DeleteUser(20014));
 
 
     }

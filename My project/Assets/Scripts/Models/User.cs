@@ -13,11 +13,6 @@ public class User
     public long Id;
     public   string Username ;
     public  string Email ;
-    private byte[] PasswordSalt { get;  set; }
-    private byte[] PasswordHash { get;  set; }
-
-
-//base 64 string 
     public string  Password;
 
 
@@ -26,7 +21,7 @@ public class User
     {
         Username = username;
         Email = email;
-       SetPassword(password);
+        Password = password;
     }
 
     public User( long  id ,String username, string email, string password)
@@ -34,21 +29,14 @@ public class User
         Id = id;
         Username = username;
         Email = email;
-        SetPassword(password);
+        Password = password;
     }
 
-    public void SetPassword(string password)
-    {
-        PasswordHasher.CreatePasswordHash(password, out byte[] hash, out byte[] salt);
-        PasswordHash = hash;
-        PasswordSalt = salt;
-        Password = Convert.ToBase64String(hash);
-    }
+/*
+    
 
-    public bool CheckPassword(string password)
-    {
-        return PasswordHasher.VerifyPassword(password, PasswordHash, PasswordSalt);
-    }
+  
+
 
     // 🔐 Classe utilitaire interne pour le hash
     private static class PasswordHasher
@@ -67,15 +55,9 @@ public class User
             }
         }
 
-        public static bool VerifyPassword(string password, byte[] storedHash, byte[] storedSalt)
-        {
-            using (var pbkdf2 = new Rfc2898DeriveBytes(password, storedSalt, 10000))
-            {
-                byte[] hash = pbkdf2.GetBytes(32);
-                return CryptographicOperations.FixedTimeEquals(hash, storedHash);
-            }
-        }
+    
     }
+      */
     
 }
 }
