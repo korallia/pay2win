@@ -32,32 +32,14 @@ public class User
         Password = password;
     }
 
-/*
-    
-
-  
-
-
-    // 🔐 Classe utilitaire interne pour le hash
-    private static class PasswordHasher
+    public User(String username, string password)
     {
-        public static void CreatePasswordHash(string password, out byte[] hash, out byte[] salt)
-        {
-            salt = new byte[16];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
-
-            using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000))
-            {
-                hash = pbkdf2.GetBytes(32);
-            }
-        }
+        Username = username;
+        Password = password;
+    }
+    
 
     
-    }
-      */
     
 }
 }

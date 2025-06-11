@@ -11,6 +11,7 @@ public class UserTest : MonoBehaviour
 {
     User user;
     User newUser;
+    
     UserService userService;
     // Start is called before the first frame update
     void Start()
@@ -25,7 +26,9 @@ public class UserTest : MonoBehaviour
         //StartCoroutine(userService.UpdateUser(20014,newUser ));
         //Debug.Log(user.Username + " " + user.Password + " " + user.Email);
 
-        StartCoroutine(userService.DeleteUser(20014));
+        //StartCoroutine(userService.DeleteUser(20014));
+        LoginModel login = new LoginModel("abyssal_knight_renamed", "NewShadowPass99!");
+        StartCoroutine(userService.Login(login));
 
 
     }

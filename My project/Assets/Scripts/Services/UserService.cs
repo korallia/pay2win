@@ -20,9 +20,18 @@ public class UserService
     {
         string json = JsonUtility.ToJson(user);
 
-
          yield return SendRequest("CreateUser", json,"POST");
     }
+    
+    public IEnumerator Login(LoginModel model)
+{
+    Debug.Log("Entered Login");
+    string json = JsonUtility.ToJson(model);
+    yield return SendRequest("login", json, "POST");
+}
+
+
+
 
     // Modifier un utilisateur (ex. changer email)
     public IEnumerator UpdateUser(long Id, User newUser)
@@ -59,6 +68,8 @@ public class UserService
 
     private IEnumerator SendRequest(string endpoint, string json, string RequestType)
     {
+
+        Debug.Log("Entered Request");
 
         UnityWebRequest request = new UnityWebRequest(apiBaseUrl + endpoint, RequestType);
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
