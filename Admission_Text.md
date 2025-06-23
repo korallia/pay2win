@@ -1,4 +1,4 @@
-<h1>TExte d'admission</h1>
+<h1>Texte d'admission</h1>
 
 <h2>Fr</h2>
 ARCHAVILLUM
