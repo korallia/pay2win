@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: TextAreas
+    uniqueID: 2610815919
+    locked: 0
+  - name: Lettre
+    uniqueID: 2675713119
+    locked: 0
